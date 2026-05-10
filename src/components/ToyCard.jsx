@@ -2,16 +2,6 @@ import React from "react";
 
 function ToyCard({id, key, name, image, likes}) {
 
-  function handleClick(){
-    
-  }
-
-
-
-
-
-
-
   return (
     <div className="card" data-testid="toy-card">
       <h2>{name}</h2>
