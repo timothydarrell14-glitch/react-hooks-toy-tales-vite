@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
 import ToyCard from "./ToyCard";
+import ToyForm from "./ToyForm";
 
 function ToyContainer() {
 
   const [toyList, setToyList] = useState([])
+  {<ToyForm list={toyList}/>}
 
 useEffect(() => {
   const getData = async () => {
