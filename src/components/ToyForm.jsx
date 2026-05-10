@@ -1,9 +1,54 @@
-import React from "react";
+import React, {useRef, useEffect, useState}from "react";
 
-function ToyForm() {
+function ToyForm({list}) {
+  const nameRef = useRef("")
+  const imageRef = useRef("")
+  const [likeCount, setLikeCount] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  let newId = list.length + 1
+
+  let newToyDetails = {
+    id: newId,
+    name: nameRef,
+    image: imageRef,
+    likes : likeCount,
+  }
+
+  function handleSubmit(event){
+    event.preventDefault()
+  }
+
+  useEffect(()=> {
+    setLoading(true)
+    const addToy = async (newToyDetails) => {
+      try {
+        const response = await fetch(`http://localhost:3001/toys`, {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newToyDetails)
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("Error adding user:", error);
+    }
+    }
+    addToy()
+    setLoading(False)
+  }, [handleSubmit])
+
+
   return (
     <div className="container">
-      <form className="add-toy-form">
+      <form className="add-toy-form" onSubmit={handleSubmit}>
         <h3>Create a toy!</h3>
         <input
           type="text"
@@ -26,6 +71,12 @@ function ToyForm() {
           className="submit"
         />
       </form>
+
+      {loading ? (
+        <h3>Adding new toy...</h3>
+      ) : (
+        alert("New Toy added")
+      )}
     </div>
   );
 }
