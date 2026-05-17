@@ -63,7 +63,7 @@ button:hover {
 
 .container {
   padding: 1rem;
-  width: stretch;
+  /* width: stretch; */
   height: auto;
   background: #515da2;
   opacity: 0.8;

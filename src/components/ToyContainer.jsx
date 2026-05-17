@@ -21,6 +21,7 @@ useEffect(() => {
       console.error("Error getting toys", error)
     }
   }
+  getData()
 }, [])
 
   return (

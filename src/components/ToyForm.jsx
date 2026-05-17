@@ -10,8 +10,8 @@ function ToyForm({list}) {
 
   let newToyDetails = {
     id: newId,
-    name: nameRef,
-    image: imageRef,
+    name: nameRef.current.value,
+    image: imageRef.current.value,
     likes : likeCount,
   }
 
@@ -41,9 +41,9 @@ function ToyForm({list}) {
         console.error("Error adding user:", error);
     }
     }
-    addToy()
-    setLoading(False)
-  }, [handleSubmit])
+    addToy(newToyDetails)
+    setLoading(false)
+  }, [])
 
 
   return (
@@ -51,6 +51,7 @@ function ToyForm({list}) {
       <form className="add-toy-form" onSubmit={handleSubmit}>
         <h3>Create a toy!</h3>
         <input
+          ref={nameRef}
           type="text"
           name="name"
           placeholder="Enter a toy's name..."
@@ -58,6 +59,7 @@ function ToyForm({list}) {
         />
         <br />
         <input
+          ref={imageRef}
           type="text"
           name="image"
           placeholder="Enter a toy's image URL..."
@@ -72,11 +74,7 @@ function ToyForm({list}) {
         />
       </form>
 
-      {loading ? (
-        <h3>Adding new toy...</h3>
-      ) : (
-        alert("New Toy added")
-      )}
+      {loading && <h3>Adding new toy...</h3>}
     </div>
   );
 }
