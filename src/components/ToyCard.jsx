@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-function ToyCard({id, name, image, likes}) {
+function ToyCard({ id, name, image, likes, onDeleteToy, onUpdateLikes }) {
   const [likeCount, setLikeCount] = useState(likes);
 
   function handleClick() {
     const updatedLikes = likeCount + 1;
     setLikeCount(updatedLikes);
+    onUpdateLikes(id, updatedLikes);
 
     fetch(`http://localhost:3001/toys/${id}`, {
       method: "PATCH",
@@ -23,6 +24,22 @@ function ToyCard({id, name, image, likes}) {
       .catch((error) => {
         console.error("Error updating likes:", error);
         setLikeCount(likeCount);
+        onUpdateLikes(id, likeCount);
+      });
+  }
+
+  function handleDonate() {
+    fetch(`http://localhost:3001/toys/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete toy");
+        }
+        onDeleteToy(id);
+      })
+      .catch((error) => {
+        console.error("Error deleting toy:", error);
       });
   }
 
@@ -36,7 +53,7 @@ function ToyCard({id, name, image, likes}) {
       />
       <p>{likeCount} Likes </p>
       <button onClick={handleClick} className="like-btn">Like {"<3"}</button>
-      <button className="del-btn">Donate to GoodWill</button>
+      <button onClick={handleDonate} className="del-btn">Donate to GoodWill</button>
     </div>
   );
 }
